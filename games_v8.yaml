@@ -1,0 +1,7 @@
+path: ./
+train: 'synthetic_box_art/yolo_val_output/train'
+val: 'synthetic_box_art/yolo_val_output/val'
+ 
+# class names
+names: 
+  0: 'game_cover'
