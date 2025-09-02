@@ -207,8 +207,6 @@ marimo/_lsp/
 __marimo__/
 
 
-synthetic_box_art/game_covers_NES_neg/*
-synthetic_box_art/game_covers_SNES_neg/*
 synthetic_box_art/yolo_output/*
 synthetic_box_art/labelme_output/*
 synthetic_box_art/output/*
