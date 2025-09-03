@@ -1,15 +1,32 @@
 from ultralytics import YOLO
 import cv2
 import os
+import re
 
-model = YOLO("runs/detect/yolov8n_custom15/weights/best.pt") # Replace with your chosen model path
 
-img_paths = [
-    "pink_gorilla_twitter/PinkGorilla_1.jpg",
-    "pink_gorilla_twitter/PinkGorilla_2.jpg",
-    "pink_gorilla_twitter/PinkGorilla_3.jpg",
-    "pink_gorilla_twitter/PinkGorilla_4.jpg"
-]
+def get_latest_custom_model(base_dir="runs/detect"):
+    custom_dirs = [
+        d for d in os.listdir(base_dir)
+        if os.path.isdir(os.path.join(base_dir, d)) and re.match(r"yolov8n_custom\d+", d)
+    ]
+    if not custom_dirs:
+        raise FileNotFoundError("No custom YOLO model directories found.")
+
+    # Extract the number and sort by it
+    latest = max(custom_dirs, key=lambda d: int(re.search(r"\d+", d).group()))
+    return os.path.join(base_dir, latest, "weights", "best.pt")
+
+# --- Collect all PinkGorilla images ---
+def get_pink_gorilla_images(img_dir="pink_gorilla_twitter"):
+    return sorted([
+        os.path.join(img_dir, f)
+        for f in os.listdir(img_dir)
+        if re.match(r"PinkGorilla_\d+\.jpg$", f, re.IGNORECASE)
+    ])
+
+
+model = YOLO(get_latest_custom_model()) # Replace with your chosen model path
+img_paths = get_pink_gorilla_images()
 
 for img_path in img_paths:
     results = model.predict(source=img_path)

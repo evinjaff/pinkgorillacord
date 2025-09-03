@@ -7,8 +7,9 @@ model = YOLO('yolov8n.pt')
 results = model.train(
    data='games_v8.yaml',
    imgsz=640,
-   epochs=150,
+   epochs=500,
    batch=8,
    name='yolov8n_custom',
-   device="mps"
+   device="cuda",
+   patience=50
    )

@@ -220,3 +220,5 @@ runs/*
 
 # Ignore macos DS Stores
 .DS_*
+# Ignore Zone.Identifier on WSL
+*Zone.Identifier
