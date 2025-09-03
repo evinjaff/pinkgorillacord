@@ -206,14 +206,10 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 
-
-synthetic_box_art/yolo_output/*
-synthetic_box_art/labelme_output/*
-synthetic_box_art/output/*
-synthetic_box_art/yolo_val_output
-synthetic_box_art/results/*
-
 valid/*
+
+training_data/real_assets/YOLODataset/*
+
 
 # Exclude Yolo Binaries
 runs/*
@@ -222,3 +218,4 @@ runs/*
 .DS_*
 # Ignore Zone.Identifier on WSL
 *Zone.Identifier
+

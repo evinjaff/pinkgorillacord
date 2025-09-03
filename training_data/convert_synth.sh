@@ -62,13 +62,7 @@ cp build/output/*.jpeg build/yolo_output/images/ 2>/dev/null
 cp build/output/*.png build/yolo_output/images/ 2>/dev/null
 cp build/output/*.txt build/yolo_output/labels/ 2>/dev/null
 
-# PHASE 2: Real Data mixin
-
-
-
-
-
-## PHASE 3: Train/Validation Split
+## PHASE 2: Train/Validation Split of YOLO Data
 
 # Create train/validation split (75%/25%)
 echo -e "${BLUE}Creating train/validation split (75%/25%)...${NC}"
@@ -108,6 +102,26 @@ for i in "${!shuffled_files[@]}"; do
     # Copy corresponding label file
     cp build/yolo_output/labels/${base_name}.txt "$dest_dir/labels/" 2>/dev/null
 done
+
+
+# PHASE 2: Real Data mixin using labelme2yolo
+
+echo -e "Using labelme2yolo to create files"
+
+# Generate YOLO Data Dir
+labelme2yolo --json_dir real_assets/ --val_size 0.25
+
+# Training set
+cp real_assets/YOLODataset/images/train/*.jpg  "build/yolo_val_output/train/images/"
+cp real_assets/YOLODataset/images/train/*.jpeg "build/yolo_val_output/train/images/" 
+cp real_assets/YOLODataset/images/train/*.png  "build/yolo_val_output/train/images/"
+cp real_assets/YOLODataset/labels/train/*.txt  "build/yolo_val_output/train/labels/" 
+
+# Validation set
+cp real_assets/YOLODataset/images/train/*.jpg  "build/yolo_val_output/val/images/" 
+cp real_assets/YOLODataset/images/train/*.jpeg "build/yolo_val_output/val/images/" 
+cp real_assets/YOLODataset/images/train/*.png  "build/yolo_val_output/val/images/" 
+cp real_assets/YOLODataset/labels/val/*.txt  "build/yolo_val_output/val/labels/"
 
 # Final count verification
 yolo_images=$(find build/yolo_output/images -name "*.jpg" -o -name "*.jpeg" -o -name "*.png" | wc -l)
